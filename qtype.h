@@ -1,3 +1,5 @@
+//// qtype.h: Thread-safe Queue 타입 정의
+
 #pragma once
 
 typedef int Key;
