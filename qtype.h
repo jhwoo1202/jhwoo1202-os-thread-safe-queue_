@@ -23,3 +23,9 @@ typedef struct {
     bool success;
     Item item;
 } Reply;
+
+Queue* init(void);
+void release(Queue* queue);
+Reply enqueue(Queue* queue, Item item);
+Reply dequeue(Queue* queue);
+Queue* range(Queue* queue, Key start, Key end);
