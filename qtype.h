@@ -13,3 +13,13 @@ typedef struct node_t {
     struct node_t* next;
     struct node_t* prev;
 } Node;
+
+typedef struct {
+    Node* head;
+    Node* tail;
+} Queue;
+
+typedef struct {
+    bool success;
+    Item item;
+} Reply;
