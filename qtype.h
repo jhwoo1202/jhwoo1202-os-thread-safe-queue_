@@ -28,8 +28,6 @@ typedef struct {
     Item item;
 } Reply;
 
-Queue* init(void);
-void release(Queue* queue);
-Reply enqueue(Queue* queue, Item item);
-Reply dequeue(Queue* queue);
-Queue* range(Queue* queue, Key start, Key end);
+Node*  nalloc(Item item);
+void   nfree(Node* node);
+Node*  nclone(Node* node);
