@@ -61,6 +61,12 @@ Queue* init(void) {
 }
 
 Reply enqueue(Queue* queue, Item item) {
-
-    return { false, {0, nullptr, 0} };
+    if (!queue) {
+        return { false, {0, nullptr, 0} };
+    }
+    Node* newNode = nalloc(item);
+    if (!newNode) {
+        return { false, {0, nullptr, 0} };
+    }
+    std::lock_guard<std::mutex> lock(queue->mtx);
 }
