@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+
 typedef int Key;
 typedef void* Value;
 
@@ -18,6 +20,7 @@ typedef struct node_t {
 typedef struct {
     Node* head;
     Node* tail;
+    std::mutex  mtx;
 } Queue;
 
 typedef struct {
