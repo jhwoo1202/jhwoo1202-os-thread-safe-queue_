@@ -90,3 +90,28 @@ Reply enqueue(Queue* queue, Item item) {
         curr = curr->next;
     }
 }
+
+    if (!queue->head) {
+        queue->head = queue->tail = newNode;
+    } else {
+        Node* pos = queue->head;
+        while (pos && pos->item.key <= newNode->item.key) {
+            pos = pos->next;
+        }
+        if (pos == queue->head) {
+            newNode->next = queue->head;
+            queue->head->prev = newNode;
+            queue->head = newNode;
+        } else if (!pos) {
+            newNode->prev = queue->tail;
+            queue->tail->next = newNode;
+            queue->tail = newNode;
+        } else {
+            newNode->next = pos;
+            newNode->prev = pos->prev;
+            pos->prev->next = newNode;
+            pos->prev = newNode;
+        }
+    }
+
+    return { true, newNode->item };
