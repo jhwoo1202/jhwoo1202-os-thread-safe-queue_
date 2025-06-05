@@ -70,3 +70,23 @@ Reply enqueue(Queue* queue, Item item) {
     }
     std::lock_guard<std::mutex> lock(queue->mtx);
 }
+
+ Node* curr = queue->head;
+    while (curr) {
+        if (curr->item.key == item.key) {
+            if (curr->item.value) {
+                std::free(curr->item.value);
+            }
+            curr->item.value_size = item.value_size;
+            if (item.value_size > 0 && item.value != nullptr) {
+                curr->item.value = std::malloc(item.value_size);
+                std::memcpy(curr->item.value, item.value, item.value_size);
+            } else {
+                curr->item.value = nullptr;
+            }
+            nfree(newNode);
+            return { true, curr->item };
+        }
+        curr = curr->next;
+    }
+}
