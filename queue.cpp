@@ -45,3 +45,26 @@ Node* nclone(Node* node) {
     if (!node) return nullptr;
     return nalloc(node->item);
 }
+
+void release(Queue* queue) {
+    if (!queue) return;
+    {
+        std::lock_guard<std::mutex> lock(queue->mtx);
+        Node* curr = queue->head;
+        while (curr) {
+            Node* tmp = curr;
+            curr = curr->next;
+            nfree(tmp);
+        }
+        queue->head = queue->tail = nullptr;
+    }
+    std::free(queue);
+}
+
+Queue* init(void) {
+    Queue* q = (Queue*)std::malloc(sizeof(Queue));
+    if (!q) return nullptr;
+    q->head = nullptr;
+    q->tail = nullptr;
+    return q;
+}
