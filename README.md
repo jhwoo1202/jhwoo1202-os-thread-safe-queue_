@@ -3,7 +3,7 @@
 - 학번 마지막 세자리: 292 
 - 이름: 정현우
 
-구현된 함수 목록
+## 구현된 함수 목록
 ⓐ Queue* init(void)
 ⓑ void release(Queue* queue)
 ⓒ Node* nalloc(Item item)
