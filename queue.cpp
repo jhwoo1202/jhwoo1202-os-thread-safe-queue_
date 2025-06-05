@@ -112,6 +112,27 @@ Reply enqueue(Queue* queue, Item item) {
             pos->prev->next = newNode;
             pos->prev = newNode;
         }
-    }
 
     return { true, newNode->item };
+}
+Reply dequeue(Queue* queue) {
+    if (!queue) {
+        return { false, {0, nullptr, 0} };
+    }
+    std::lock_guard<std::mutex> lock(queue->mtx);
+    if (!queue->head) {
+        return { false, {0, nullptr, 0} };
+    }
+    Node* node = queue->head;
+    Item result = node->item;
+
+    queue->head = node->next;
+    if (queue->head) {
+        queue->head->prev = nullptr;
+    } else {
+        queue->tail = nullptr;
+    }
+
+    std::free(node);
+    return { true, result };
+}
