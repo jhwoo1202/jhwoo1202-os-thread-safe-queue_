@@ -59,3 +59,8 @@ Queue* init(void) {
     q->tail = nullptr;
     return q;
 }
+
+Reply enqueue(Queue* queue, Item item) {
+
+    return { false, {0, nullptr, 0} };
+}
