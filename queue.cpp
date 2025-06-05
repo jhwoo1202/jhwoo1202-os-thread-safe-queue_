@@ -136,3 +136,39 @@ Reply dequeue(Queue* queue) {
     std::free(node);
     return { true, result };
 }
+
+Queue* range(Queue* queue, Key start, Key end) {
+    if (!queue) {
+        return nullptr;
+    }
+
+    Queue* newq = init();
+    if (!newq) {
+        return nullptr;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(queue->mtx);
+        for (Node* curr = queue->head; curr; curr = curr->next) {
+            if (curr->item.key >= start && curr->item.key <= end) {
+                Item tmp;
+                tmp.key = curr->item.key;
+                tmp.value_size = curr->item.value_size;
+
+                if (curr->item.value_size > 0 && curr->item.value != nullptr) {
+                    tmp.value = std::malloc(curr->item.value_size);
+                    std::memcpy(tmp.value, curr->item.value, curr->item.value_size);
+                } else {
+                    tmp.value = nullptr;
+                }
+
+                enqueue(newq, tmp);
+                if (tmp.value) {
+                    std::free(tmp.value);
+                }
+            }
+        }
+    }
+
+    return newq;
+}
