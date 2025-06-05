@@ -1,13 +1,12 @@
-//// qtype.h: Thread-safe Queue 타입 정의
-
 #pragma once
 
 typedef int Key;
-typedef int Value;
+typedef void* Value;
 
 typedef struct {
-    Key key;
+    Key   key;
     Value value;
+    int   value_size;
 } Item;
 
 typedef struct node_t {
