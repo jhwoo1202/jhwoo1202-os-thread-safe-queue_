@@ -69,7 +69,6 @@ Reply enqueue(Queue* queue, Item item) {
         return { false, {0, nullptr, 0} };
     }
     std::lock_guard<std::mutex> lock(queue->mtx);
-}
 
  Node* curr = queue->head;
     while (curr) {
@@ -89,10 +88,11 @@ Reply enqueue(Queue* queue, Item item) {
         }
         curr = curr->next;
     }
-}
+
 
     if (!queue->head) {
         queue->head = queue->tail = newNode;
+        return { true, newNode->item };
     } else {
         Node* pos = queue->head;
         while (pos && pos->item.key <= newNode->item.key) {
@@ -114,6 +114,7 @@ Reply enqueue(Queue* queue, Item item) {
         }
 
     return { true, newNode->item };
+    }
 }
 Reply dequeue(Queue* queue) {
     if (!queue) {
@@ -133,7 +134,7 @@ Reply dequeue(Queue* queue) {
         queue->tail = nullptr;
     }
 
-    std::free(node);
+    nfree(node);
     return { true, result };
 }
 
